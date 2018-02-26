@@ -15,6 +15,18 @@ app.use(express.static(publicPath));
 io.on('connection', (socket)=>{
     console.log('new user aaya bro');
 
+    socket.emit('welcome', {
+        from: 'admin',
+        text: 'Welcome man. How\'s it hangin\'?',
+        createdAt: new Date().getTime()
+    });
+
+    socket.broadcast.emit('new one', {
+        from :'admin',
+        text: 'ek aur aaya',
+        createdAt: new Date().getTime()
+    })
+
 
     socket.on('createMessage', (msg)=>{
         console.log(msg);
@@ -23,6 +35,12 @@ io.on('connection', (socket)=>{
             text: msg.text,
             createdAt: new Date().getTime()
         });
+
+        // socket.broadcast.emit('newMessage', {
+        //     from: msg.from,
+        //     text: msg.text,
+        //     createdAt: new Date().getTime() 
+        // })
     })
 
     socket.on('disconnect', ()=>{
