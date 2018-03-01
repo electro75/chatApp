@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>AqFortress Chat</title>
 </head>
-<body>
-    <p>Welcome bro</p>
+<body class="chat">
 
-    <ol id="messages"></ol>
+    <div class="chat__sidebar">
+        <h3>Janta</h3>
+        <div id="users"></div>
+    </div>
+    <div class="chat__main" >
+        <ol id="messages" class="chat__messages"></ol>
 
-    <form id="message">
-        <input type="text" name="message" placeholder="Enter Text">
-        <button type="submit" >Send</button>
-    </form>
-    <button id='send-location'>Send Location    </button>
-
+        <div class="chat__footer">
+            <form id="message">
+                <input type="text" autofocus autocomplete="off" name="message" placeholder="Enter Text">
+                <button type="submit" >Bhej de bc</button>
+            </form>
+            <button id='send-location'>Send Location</button>
+        </div>
+        
+    
+    </div>
+    
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script src="/js/libs/jquery-3-3.1.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
