@@ -17,11 +17,23 @@ socket.on('disconnect', function(){
     console.log('Disconnected from server');
 })
 
+
+//new message listener
 socket.on('newMessage', function(msg){
     var formattedTime = moment(msg.createdAt).format('h:mm a')
-    var li = $('<li></li>');
-    li.text(`${msg.from} ${formattedTime}: ${msg.text}`);
-    $('#messages').append(li);
+    var template = $('#message-template').html();
+    var html = Mustache.render(template, {
+        text: msg.text,
+        from: msg.from,
+        createdAt: formattedTime
+    });
+
+    $('#messages').append(html);
+
+    
+    // var li = $('<li></li>');
+    // li.text(`${msg.from} ${formattedTime}: ${msg.text}`);
+    // $('#messages').append(li);
 
 })
 
@@ -63,13 +75,24 @@ locationButton.click(function () {
     })
 })
 
+
+//Send Location Event Listener
 socket.on('newLocationMessage', function(message) {
     var formattedTime = moment(msg.createdAt).format('h:mm a');
-    var li = $('<li></li>');
-    var a = $('<a target="_blank"  >My Lokesh</a>');
+    var template = $('#location-message-template').html();
+    var html = Mustache.render(template, {
+        url: msg.url,
+        from: msg.from,
+        createdAt: formattedTime
+    });
 
-    li.text(`${message.from} ${formattedTime}: `);
-    a.attr('href', message.url);
-    li.append(a);
-    $('#messages').append(li);
+    $('#messages').append(html);
+
+    // var li = $('<li></li>');
+    // var a = $('<a target="_blank"  >My Lokesh</a>');
+
+    // li.text(`${message.from} ${formattedTime}: `);
+    // a.attr('href', message.url);
+    // li.append(a);
+    // $('#messages').append(li);
 })
