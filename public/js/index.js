@@ -18,8 +18,9 @@ socket.on('disconnect', function(){
 })
 
 socket.on('newMessage', function(msg){
+    var formattedTime = moment(msg.createdAt).format('h:mm a')
     var li = $('<li></li>');
-    li.text(`${msg.from}: ${msg.text}`);
+    li.text(`${msg.from} ${formattedTime}: ${msg.text}`);
     $('#messages').append(li);
 
 })
@@ -63,10 +64,11 @@ locationButton.click(function () {
 })
 
 socket.on('newLocationMessage', function(message) {
+    var formattedTime = moment(msg.createdAt).format('h:mm a');
     var li = $('<li></li>');
     var a = $('<a target="_blank"  >My Lokesh</a>');
 
-    li.text(`${message.from}: `);
+    li.text(`${message.from} ${formattedTime}: `);
     a.attr('href', message.url);
     li.append(a);
     $('#messages').append(li);
