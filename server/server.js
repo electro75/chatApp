@@ -30,6 +30,8 @@ io.on('connection', (socket)=>{
         callback();
     })
 
+    socket.join(params.room);
+
     socket.on('createMessage', (msg, callback)=>{
         console.log(msg);
         io.emit('newMessage', generateMessage(msg.from, msg.text));
