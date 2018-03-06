@@ -117,7 +117,7 @@ locationButton.click(function () {
 
 
 //Send Location Event Listener
-socket.on('newLocationMessage', function(message) {
+socket.on('newLocationMessage', function(msg) {
     var formattedTime = moment(msg.createdAt).format('h:mm a');
     var template = $('#location-message-template').html();
     var html = Mustache.render(template, {
