@@ -1,8 +1,32 @@
-
+(function($){
+    $.deparam = $.deparam || function(uri){
+      if(uri === undefined){
+        uri = window.location.search;
+      }
+      var queryString = {};
+      uri.replace(
+        new RegExp(
+          "([^?=&]+)(=([^&#]*))?", "g"),
+          function($0, $1, $2, $3) {
+              queryString[$1] = decodeURIComponent($3.replace(/\+/g, '%20'));
+          }
+        );
+        return queryString;
+      };
+  })($);
+  
 var socket = io();
 socket.on('connect', function(){
-    console.log('connected to server');
-
+    var params = $.deparam(window.location.search) 
+    
+    socket.emit('join', params, function(err){
+        if(err) {
+            alert(err);
+            window.location.href='/'
+        } else {
+            console.log('no err')
+        }
+    })
 })
 
 function scrollToBottom() {
