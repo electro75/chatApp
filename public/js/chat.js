@@ -46,11 +46,31 @@ function scrollToBottom() {
 }
 
 socket.on('welcome', function(msg){
-    console.log(msg.text)
+    console.log(msg.text);
+    var formattedTime = moment(msg.createdAt).format('h:mm a')
+    var template = $('#message-template').html();
+    var html = Mustache.render(template, {
+        text: msg.text,
+        from: msg.from,
+        createdAt: formattedTime
+    });
+
+    $('#messages').append(html);
+    scrollToBottom();
 })
 
 socket.on('new one', function(msg){
     console.log(msg.text);
+    var formattedTime = moment(msg.createdAt).format('h:mm a')
+    var template = $('#message-template').html();
+    var html = Mustache.render(template, {
+        text: msg.text,
+        from: msg.from,
+        createdAt: formattedTime
+    });
+
+    $('#messages').append(html);
+    scrollToBottom();
 })
 
 socket.on('disconnect', function(){
@@ -87,19 +107,12 @@ socket.on('newMessage', function(msg){
 
 })
 
-// socket.emit('createMessage', {
-//     from: 'Kapil',
-//     text: 'shahar'
-// }, function(serverMessage) {
-//     console.log(serverMessage);
-// })
 
 $('#message').on('submit', function(e){
     e.preventDefault();
     var messageTextBox = $('[name = message]');
 
     socket.emit('createMessage', {
-        from: 'User',
         text:  messageTextBox.val()
     }, function(){
         messageTextBox.val('');

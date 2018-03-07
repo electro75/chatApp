@@ -31,7 +31,7 @@ io.on('connection', (socket)=>{
         users.addUser(socket.id, params.name, params.room);
 
         io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-        socket.emit('welcome', generateMessage('Admin', `Welcome to ${params.room}`));
+        socket.emit('welcome', generateMessage('Admin', `Welcome to ${params.room} bro`));
         socket.broadcast.emit('new one', generateMessage('Admin', `${params.name} Joined`));
 
         callback();
@@ -40,13 +40,22 @@ io.on('connection', (socket)=>{
 
 
     socket.on('createMessage', (msg, callback)=>{
-        console.log(msg);
-        io.emit('newMessage', generateMessage(msg.from, msg.text));
+        var user = users.getUser(socket.id);
+
+        if(user && isRealString(msg.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, msg.text));
+        }
+        
         callback();
     })
 
     socket.on('createLocationMessage', (coords)=>{
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude))
+        var user = users.getUser(socket.id);
+
+        if(user) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude))
+        }
+        
     })
 
     socket.on('disconnect', ()=>{
